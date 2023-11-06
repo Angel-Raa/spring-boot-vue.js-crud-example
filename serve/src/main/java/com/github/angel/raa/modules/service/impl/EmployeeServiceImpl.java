@@ -30,7 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional(readOnly = true)
     public EmployeeDTO getEmployeeById(@NonNull Long id) {
-        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee not found "));
+        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee not found ", true));
         return convertToDto(employee);
     }
 
@@ -45,7 +45,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public Response updateEmployee(@NonNull Long id, EmployeeDTO body) {
-        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee not found "));
+        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee not found ", true));
         employee.setFistName(body.getFistName());
         employee.setLastName(body.getLastName());
         employee.setEmail(body.getEmail());
@@ -57,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public Response deleteEmployee(@NonNull Long id) {
-        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee not found "));
+        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException("Employee not found ", true));
         employeeRepository.delete(employee);
         return Response.builder().message("Employee successfully deleted").code(200).error(false).build();
     }
